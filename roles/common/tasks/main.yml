@@ -1,0 +1,45 @@
+---
+
+- name: Update apt package repos (apt-get update)
+  apt:
+    update_cache: yes
+
+- name: Install python modules and git
+  apt: name={{ item }} state=present
+  with_items:
+   - python
+   - python-pip
+   - python-dev
+   - git
+   - unzip
+   - net-tools
+   - curl
+
+- name: Install docker
+  apt: name={{ item }} state=present
+  with_items:
+   - docker.io 
+
+- name: /opt owned by ansible user
+  file:
+    path: /opt
+    owner: "{{ ansible_user }}" 
+    recurse: yes   
+
+- name: Download docker-compose installer
+  get_url:
+    url: https://github.com/docker/compose/releases/download/1.20.1/docker-compose-Linux-x86_64
+    dest: /usr/local/bin/docker-compose
+    owner: "{{ ansible_user }}" 
+    mode: 0750
+
+- name: Clone the dockprom project from GitHub
+  git:
+    repo: https://github.com/stefanprodan/dockprom
+    dest: /opt/dockprom
+    clone: yes
+
+# - name: Run docker-compose up
+#   command: ADMIN_USER=admin ADMIN_PASSWORD=123456 docker-compose up -d
+#   args:
+#     chdir: /opt/dockprom

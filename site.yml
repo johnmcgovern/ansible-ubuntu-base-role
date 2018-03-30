@@ -1,0 +1,7 @@
+---
+# This playbook deploys the Drupal 8 application stack.
+
+- name: Apply common configuration to all nodes
+  hosts: all
+  roles:
+    - common
