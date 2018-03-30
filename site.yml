@@ -1,5 +1,5 @@
 ---
-# This playbook deploys the Drupal 8 application stack.
+# This playbook deploys a base Ubuntu stack for labing Docker and other projects in the future.
 
 - name: Apply common configuration to all nodes
   hosts: all
